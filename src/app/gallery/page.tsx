@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { FaArrowLeft } from 'react-icons/fa'
 
 type MediaItem = {
   type: 'image' | 'video'
@@ -19,8 +20,9 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col items-center">
-      <Link href="/" className="mb-6 text-gray-900 hover:text-cyan-700 transition-colors duration-200">
-        ← Back to Memorial
+      <Link href="/" className="mb-6 text-gray-900 hover:text-cyan-700 transition-colors duration-200 flex items-center">
+        <FaArrowLeft className="mr-2" /> {/* 아이콘 사용 */}
+        뒤로가기
       </Link>
     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">

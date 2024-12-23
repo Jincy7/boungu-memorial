@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 export function Memories() {
     const memories = [
@@ -10,8 +11,9 @@ export function Memories() {
     return (
       <div className="text-black">
         <Link href="/gallery">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold mb-4 flex items-center">
                 추억들
+                <FaArrowRight className="ml-2" />
             </h2>
         </Link>
         
