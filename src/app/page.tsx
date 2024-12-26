@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import { Memories } from './components/Memories'
+import { supabase } from './lib/supabase/supabase.client';
 
 export default async function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${baseUrl}/api/v1/test`)
-  const data = await response.json();
-  console.log('Users:', data);
+  const { data: users } = await supabase
+    .from('users')
+    .select('*');
+
+  console.log('Test Users:', users);
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
