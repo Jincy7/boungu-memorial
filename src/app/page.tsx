@@ -1,7 +1,12 @@
 import Image from 'next/image'
 import { Memories } from './components/Memories'
 
-export default function Home() {
+export default async function Home() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${baseUrl}/api/v1/test`)
+  const data = await response.json();
+  console.log('Users:', data);
+
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
