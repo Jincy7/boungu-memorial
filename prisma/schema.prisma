@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MediaMetadata {
+  id          String    @id @default(uuid()) @map("id")
+  timestamp   DateTime  @map("timestamp")
+  title       String    @map("title")
+  description String?   @map("description")
+  mediaSrc    String    @map("media_src")
+  type        MediaType @map("type")
+
+  mediaTags   MediaTags[]
+
+  @@map("media_metadata")
+}
+
+model Tag {
+  id          String    @id @default(uuid()) @map("id")
+  title       String    @map("title")
+  description String?   @map("description")
+
+  mediaTags   MediaTags[]
+
+  @@map("tags")
+}
+
+model MediaTags {
+  id       String       @id @default(uuid()) @map("id")
+  media    MediaMetadata @relation(fields: [mediaId], references: [id])
+  mediaId  String        @map("media_id")
+  tag      Tag           @relation(fields: [tagId], references: [id])
+  tagId    String        @map("tag_id")
+
+  @@unique([mediaId, tagId])
+  @@map("media_tags")
+}
+
+enum MediaType {
+  image
+  video
+}
