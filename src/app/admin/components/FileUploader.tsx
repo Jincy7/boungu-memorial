@@ -76,6 +76,7 @@ export default function FileUploader() {
         } else {
           console.log('Media uploaded successfully')
           toast('업로드 성공')
+          resetForm();
         }
       } catch (error) {
         console.error('Upload error:', error)
@@ -84,6 +85,15 @@ export default function FileUploader() {
         setIsLoading(false)
       }
     }
+  }
+
+  const resetForm = () => {
+    setFile(null)
+    setTitle('')
+    setDescription('')
+    setType('image')
+    setTimestamp('')
+    setPreview(null)
   }
 
   return (
