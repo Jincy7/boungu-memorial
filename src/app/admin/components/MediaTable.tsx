@@ -25,7 +25,7 @@ export default function MediaTable({ mediaItems }: MediaTableProps) {
               <td className="border px-4 py-2">{item.title}</td>
               <td className="border px-4 py-2">{item.description}</td>
               <td className="border px-4 py-2">{item.type}</td>
-              <td className="border px-4 py-2">{item.mediaSrc}</td>
+              <td className="border px-4 py-2">{item.media_src}</td>
               <td className="border px-4 py-2">{item.timestamp.toString()}</td>
               <td className="border px-4 py-2">
                 <button className="bg-blue-500 text-white px-2 py-1 mr-2">수정</button>
