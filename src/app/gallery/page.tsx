@@ -5,17 +5,21 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FaArrowLeft } from 'react-icons/fa'
 
+// MediaItem 타입 정의
 type MediaItem = {
   type: 'image' | 'video'
   src: string
-  caption: string
+  title: string
+  timestamp: string
 }
 
+// Gallery 컴포넌트
 export default function Gallery() {
+  // 미디어 데이터 상태 관리
   const [media,] = useState<MediaItem[]>([
-    { type: 'image', src: '/bonggu/memories/little.jpeg', caption: '어렸을때 무척 귀엽던 봉구' },
-    { type: 'video', src: '/bonggu/memories/slide.MOV', caption: '가끔 이상한 곳에 몸을 던지던 봉구' },
-    { type: 'image', src: '/bonggu/memories/let-me-play.jpeg', caption: '낚싯대 장난감을 물어 와선 빤히 쳐다보던 봉구' },
+    { type: 'image', src: '/bonggu/memories/little.jpeg', title: '어렸을때 무척 귀엽던 봉구', timestamp: '2023-01-01' },
+    { type: 'video', src: '/bonggu/memories/slide.MOV', title: '가끔 이상한 곳에 몸을 던지던 봉구', timestamp: '2023-02-15' },
+    { type: 'image', src: '/bonggu/memories/let-me-play.jpeg', title: '낚싯대 장난감을 물어 와선 빤히 쳐다보던 봉구', timestamp: '2023-03-10' },
   ])
 
   return (
@@ -29,15 +33,15 @@ export default function Gallery() {
         {media.map((item, index) => (
           <div key={index} className="bg-white p-4 rounded-lg shadow">
             {item.type === 'image' ? (
-              <Image src={item.src} alt={item.caption} width={300} height={300} className="w-full h-64 object-cover mb-2" />
+              <Image src={item.src} alt={item.title} width={300} height={300} className="w-full h-64 object-cover mb-2" />
             ) : (
               <video src={item.src} controls className="w-full h-64 object-cover mb-2" />
             )}
-            <p className="text-gray-600">{item.caption}</p>
+            <h3 className="text-lg font-semibold">{item.title}</h3> {/* 제목 표시 */}
+            <p className="text-gray-500">{item.timestamp}</p> {/* 날짜 표시 */}
           </div>
         ))}
       </div>
     </div>
   )
 }
-
