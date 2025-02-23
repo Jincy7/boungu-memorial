@@ -1,6 +1,8 @@
 'use client'
 
+import { Spinner } from '@/app/components/Spinner'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null>(null)
@@ -10,6 +12,7 @@ export default function FileUploader() {
   const [timestamp, setTimestamp] = useState('')
   const [isDragging, setIsDragging] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -53,6 +56,7 @@ export default function FileUploader() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (file) {
+      setIsLoading(true)
       const formData = new FormData()
       formData.append('file', file)
       formData.append('title', title)
@@ -60,15 +64,24 @@ export default function FileUploader() {
       formData.append('type', type)
       formData.append('timestamp', new Date(timestamp).toISOString())
 
-      const response = await fetch('/api/v1/media', {
-        method: 'POST',
-        body: formData,
-      })
+      try {
+        const response = await fetch('/api/v1/media', {
+          method: 'POST',
+          body: formData,
+        })
 
-      if (!response.ok) {
-        console.error('Failed to upload media')
-      } else {
-        console.log('Media uploaded successfully')
+        if (!response.ok) {
+          console.error('Failed to upload media')
+          toast('업로드 실패')
+        } else {
+          console.log('Media uploaded successfully')
+          toast('업로드 성공')
+        }
+      } catch (error) {
+        console.error('Upload error:', error)
+        toast('업로드 중 오류 발생')
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -117,7 +130,13 @@ export default function FileUploader() {
             className="border p-2"
             required
           />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2">업로드</button>
+          <button
+            type="submit"
+            className={`px-4 py-2 text-white ${isLoading ? 'bg-gray-500' : 'bg-blue-500'}`}
+            disabled={isLoading}
+          >
+            {isLoading ? <Spinner size="sm" /> : '업로드'}
+          </button>
         </form>
       </div>
       {/* 미리보기 영역 */}
