@@ -1,22 +1,28 @@
-'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { supabase } from '@/app/lib/supabase/supabase.client'
 import { FaArrowLeft } from 'react-icons/fa'
 
-type MediaItem = {
-  type: 'image' | 'video'
-  src: string
-  caption: string
-}
 
-export default function Gallery() {
-  const [media,] = useState<MediaItem[]>([
-    { type: 'image', src: '/bonggu/memories/little.jpeg', caption: '어렸을때 무척 귀엽던 봉구' },
-    { type: 'video', src: '/bonggu/memories/slide.MOV', caption: '가끔 이상한 곳에 몸을 던지던 봉구' },
-    { type: 'image', src: '/bonggu/memories/let-me-play.jpeg', caption: '낚싯대 장난감을 물어 와선 빤히 쳐다보던 봉구' },
-  ])
+const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || ''
+
+export default async function Gallery() {
+  // Supabase에서 모든 미디어 데이터를 가져옵니다.
+  const { data, error } = await supabase
+    .from('media_metadata')
+    .select('type, description, src:media_src, title, timestamp')
+
+  if (error) {
+    console.error('Error fetching media data:', error)
+    return <div>데이터를 가져오는 중 오류가 발생했습니다.</div>
+  }
+
+  // src에 CDN URL을 붙입니다.
+  const mediaData = data.map(item => ({
+    ...item,
+    src: `${CDN_URL}${item.src}`
+  }))
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col items-center">
@@ -26,18 +32,18 @@ export default function Gallery() {
       </Link>
     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {media.map((item, index) => (
+        {mediaData.map((item, index) => (
           <div key={index} className="bg-white p-4 rounded-lg shadow">
             {item.type === 'image' ? (
-              <Image src={item.src} alt={item.caption} width={300} height={300} className="w-full h-64 object-cover mb-2" />
+              <Image src={item.src} alt={item.description} width={300} height={300} className="w-full h-64 object-cover mb-2" />
             ) : (
               <video src={item.src} controls className="w-full h-64 object-cover mb-2" />
             )}
-            <p className="text-gray-600">{item.caption}</p>
+            <h3 className="text-lg font-semibold">{item.description}</h3> {/* 제목 표시 */}
+            <p className="text-gray-500">{item.timestamp}</p> {/* 날짜 표시 */}
           </div>
         ))}
       </div>
     </div>
   )
 }
-
