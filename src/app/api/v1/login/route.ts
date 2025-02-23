@@ -10,8 +10,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: '서버 설정 오류' }, { status: 500 })
   }
 
-  const envUsername = process.env.NEXT_PUBLIC_USERNAME
-  const envPassword = process.env.NEXT_PUBLIC_PASSWORD
+  const envUsername = process.env.USERNAME
+  const envPassword = process.env.PASSWORD
 
   if (username === envUsername && password === envPassword) {
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' })
