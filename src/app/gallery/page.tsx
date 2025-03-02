@@ -26,7 +26,7 @@ export default async function Gallery() {
   }))
 
   return (
-    <div className="min-h-screen bg-gray-100 py-6 flex flex-col items-center">
+    <div className="min-h-screen p-6 bg-gray-100 py-6 flex flex-col items-center">
       <Link href="/" className="mb-6 text-gray-900 hover:text-cyan-700 transition-colors duration-200 flex items-center" aria-label="홈으로 돌아가기" tabIndex={0}>
         <FaArrowLeft className="mr-2" aria-hidden="true" />
         <span>뒤로가기</span>
