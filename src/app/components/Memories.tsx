@@ -19,10 +19,10 @@ export async function Memories() {
 
   return (
     <div className="text-black">
-      <Link href="/gallery">
+      <Link href="/gallery" aria-label="갤러리로 이동" tabIndex={0}>
         <h2 className="text-2xl font-bold mb-4 flex items-center">
           추억들
-          <FaArrowRight className="ml-2" />
+          <FaArrowRight className="ml-2" aria-hidden="true" />
         </h2>
       </Link>
 
