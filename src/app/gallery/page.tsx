@@ -1,9 +1,8 @@
 export const revalidate = 600
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { supabase } from '@/app/lib/supabase/supabase.client'
-import { FaArrowLeft } from 'react-icons/fa'
+import BackButton from '@/components/ui/BackButton'
 
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || ''
@@ -27,10 +26,7 @@ export default async function Gallery() {
 
   return (
     <div className="min-h-screen p-6 bg-gray-100 py-6 flex flex-col items-center">
-      <Link href="/" className="mb-6 text-gray-900 hover:text-cyan-700 transition-colors duration-200 flex items-center" aria-label="홈으로 돌아가기" tabIndex={0}>
-        <FaArrowLeft className="mr-2" aria-hidden="true" />
-        <span>뒤로가기</span>
-      </Link>
+      <BackButton />
     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {mediaData.map((item, index) => (

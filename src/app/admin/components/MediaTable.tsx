@@ -6,17 +6,17 @@ type MediaTableProps = {
 
 export default function MediaTable({ mediaItems }: MediaTableProps) {
   return (
-    <div className="w-full max-w-4xl">
+    <div className="w-full max-w-4xl overflow-x-auto">
       <h2 className="text-xl font-bold mb-2">미디어 테이블</h2>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white table-fixed">
         <thead>
           <tr>
-            <th className="py-2">제목</th>
-            <th className="py-2">설명</th>
-            <th className="py-2">타입</th>
-            <th className="py-2">URL</th>
-            <th className="py-2">날짜</th>
-            <th className="py-2">작업</th>
+            <th className="py-2 w-1/6">제목</th>
+            <th className="py-2 min-w-[200px] w-2/6">설명</th>
+            <th className="py-2 w-1/6">타입</th>
+            <th className="py-2 w-2/6">URL</th>
+            <th className="py-2 w-1/6">날짜</th>
+            <th className="py-2 min-w-[200px] w-2/6">작업</th>
           </tr>
         </thead>
         <tbody>

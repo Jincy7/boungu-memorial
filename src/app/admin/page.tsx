@@ -3,6 +3,7 @@ import FileUploader from './components/FileUploader'
 import MediaTable from './components/MediaTable'
 import AuthWrapper from './components/AuthWrapper'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import BackButton from '@/components/ui/BackButton'
 
 
 // 서버 컴포넌트로 AdminPage 구현
@@ -18,6 +19,7 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-scree p-6 bg-gray-100 py-6 flex flex-col items-center">
+      <BackButton />
       <h1 className="text-2xl font-bold mb-4">관리자 페이지</h1>
       <AuthWrapper>
         <Tabs defaultValue="media" className="w-full max-w-4xl">
