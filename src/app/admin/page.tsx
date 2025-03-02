@@ -4,6 +4,7 @@ import MediaTable from './components/MediaTable'
 import AuthWrapper from './components/AuthWrapper'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import BackButton from '@/components/ui/BackButton'
+import TagManager from './components/TagManager'
 
 
 // 서버 컴포넌트로 AdminPage 구현
@@ -33,8 +34,7 @@ export default async function AdminPage() {
               <MediaTable mediaItems={mediaItems} />
             </TabsContent>
             <TabsContent value="tags" className="min-h-[300px] w-full">
-              {/* 태그 관리 컴포넌트 또는 내용 추가 */}
-              <div>태그 관리 기능이 여기에 표시됩니다.</div>
+              <TagManager />
             </TabsContent>
           </div>
         </Tabs>

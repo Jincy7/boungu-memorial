@@ -20,6 +20,7 @@ export type Tag = {
   id: string
   title: string
   description?: string
+  color?: string
   media_tags?: MediaTags[] // 선택적 필드로 변경
 }
 
