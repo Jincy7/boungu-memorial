@@ -1,3 +1,4 @@
+export const revalidate = 600
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -31,16 +32,16 @@ export default async function Gallery() {
         <span>뒤로가기</span>
       </Link>
     
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {mediaData.map((item, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow">
+          <div key={index} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             {item.type === 'image' ? (
-              <Image src={item.src} alt={item.description} width={300} height={300} className="w-full h-64 object-cover mb-2" />
+              <Image src={item.src} alt={item.description} width={300} height={300} className="w-full h-64 object-cover rounded-t-lg mb-4" />
             ) : (
-              <video src={item.src} controls className="w-full h-64 object-cover mb-2" />
+              <video src={item.src} controls className="w-full h-64 object-cover rounded-t-lg mb-4" />
             )}
-            <h3 className="text-lg font-semibold">{item.description}</h3> {/* 제목 표시 */}
-            <p className="text-gray-500">{item.timestamp}</p> {/* 날짜 표시 */}
+            <h3 className="text-xl font-bold mb-2">{item.description}</h3> {/* 제목 표시 */}
+            <p className="text-gray-400 text-sm">{new Date(item.timestamp).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</p> {/* 날짜 표시 */}
           </div>
         ))}
       </div>
