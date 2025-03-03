@@ -19,6 +19,10 @@ export default function FileUploader() {
       const selectedFile = e.target.files[0]
       setFile(selectedFile)
       generatePreview(selectedFile)
+
+      // 파일 메타데이터를 사용하여 폼 자동완성
+      setDescription(selectedFile.name)
+      setTimestamp(new Date(selectedFile.lastModified).toISOString().split('T')[0]) // YYYY-MM-DD 형식으로 설정
     }
   }
 

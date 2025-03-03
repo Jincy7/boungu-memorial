@@ -24,6 +24,7 @@ model Tag {
   id          String    @id @default(uuid()) @map("id")
   title       String    @map("title")
   description String?   @map("description")
+  color       String?   @map("color")
 
   mediaTags   MediaTags[]
 
