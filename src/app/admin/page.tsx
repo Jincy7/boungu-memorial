@@ -9,14 +9,23 @@ import TagManager from './components/TagManager'
 
 // 서버 컴포넌트로 AdminPage 구현
 export default async function AdminPage() {
-  const { data: mediaItems, error } = await supabase
-    .from('media_metadata')
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/media`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  const { data: tags, error: tagError } = await supabase
+    .from('tags')
     .select('*')
 
-  if (error) {
-    console.error('Error fetching media items:', error)
+  if (tagError) {
+    console.error('Error fetching media items:', tagError)
     return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>
   }
+
+  const mediaItems = await response.json()
 
   return (
     <div className="min-h-scree p-6 bg-gray-100 py-6 flex flex-col items-center">
@@ -31,7 +40,7 @@ export default async function AdminPage() {
           <div className="w-full">
             <TabsContent value="media" className="min-h-[300px] w-full">
               <FileUploader />
-              <MediaTable mediaItems={mediaItems} />
+              <MediaTable tags={tags} mediaItems={mediaItems} />
             </TabsContent>
             <TabsContent value="tags" className="min-h-[300px] w-full">
               <TagManager />

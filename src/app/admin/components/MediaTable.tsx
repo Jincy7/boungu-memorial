@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from "@/components/ui/input"
-import { MediaMetadata } from '@/app/types/media.type'
+import { MediaMetadata, Tag as TagType } from '@/app/types/media.type'
 import {
   Table,
   TableBody,
@@ -21,18 +21,21 @@ import {
 } from "@/components/ui/card"
 import { useState } from "react";
 import Image from 'next/image';
+import TagMapper from "./TagMapper";
+import Tag from "@/components/ui/Tag";
 
 type MediaTableProps = {
   mediaItems: MediaMetadata[]
+  tags: TagType[]
 }
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || ''
 
-export default function MediaTable({ mediaItems }: MediaTableProps) {
+export default function MediaTable({ mediaItems, tags }: MediaTableProps) {
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   // 검색어에 따라 mediaItems 필터링
-  const filteredMediaItems = mediaItems.filter(item =>
+  const filteredMediaItems = mediaItems?.filter(item =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()))
   )
@@ -66,20 +69,32 @@ export default function MediaTable({ mediaItems }: MediaTableProps) {
         <TableBody>
           {filteredMediaItems.map((item: MediaMetadata) => (
             <TableRow key={item.id}>
-              <TableCell className="border px-4 py-2">{item.title}</TableCell>
-              <TableCell className="border px-4 py-2">{item.description}</TableCell>
-              <TableCell className="border px-4 py-2">{item.type}</TableCell>
-              <TableCell className="border px-4 py-2">
+              <TableCell className="px-4 py-2">{item.title}</TableCell>
+              <TableCell className="px-4 py-2">
+                <div>
+                  {item.media_tags?.map(({ tag_id, tag }) => {
+                    return <Tag key={tag_id} {...tag} />
+                  })}
+                </div>
+                <div>
+                  {item.description}
+                </div>
+              </TableCell>
+              <TableCell className="px-4 py-2">{item.type}</TableCell>
+              <TableCell className="px-4 py-2">
                 {
                   item.type === 'image' 
                     ? <Image width={300} height={300} src={`${CDN_URL}${item.media_src}`} alt={item.title} className="w-32 h-32 object-cover" /> 
                     : <video src={`${CDN_URL}${item.media_src}`} controls className="w-32 h-32 object-cover" />
                 }
               </TableCell>
-              <TableCell className="border px-4 py-2">{item.timestamp.toString()}</TableCell>
-              <TableCell className="border px-4 py-2">
-                <button className="bg-blue-500 text-white px-2 py-1 mr-2">수정</button>
-                <button className="bg-red-500 text-white px-2 py-1">삭제</button>
+              <TableCell className="px-4 py-2">{item.timestamp.toString()}</TableCell>
+              <TableCell className="px-4 py-2">
+                <TagMapper tags={tags} mediaId={item.id} />
+                <div className="mt-2">
+                  <button className="bg-blue-500 text-white px-2 py-1 mr-2">수정</button>
+                  <button className="bg-red-500 text-white px-2 py-1">삭제</button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
@@ -102,11 +117,17 @@ export default function MediaTable({ mediaItems }: MediaTableProps) {
                 }
               </div>
               <div className="flex-grow ml-4">
+                <div>
+                  {item.media_tags?.map(({ tag_id, tag }) => {
+                    return <Tag key={tag_id} {...tag} />
+                  })}
+                </div>
                 <CardDescription>{item.title}</CardDescription>
                 <p className="text-sm text-gray-500">{item.timestamp.toString()}</p>
               </div>
             </CardContent>
             <CardFooter className="flex justify-end space-x-2">
+              <TagMapper tags={tags} mediaId={item.id} />
               <button className="bg-blue-500 text-white px-2 py-1">수정</button>
               <button className="bg-red-500 text-white px-2 py-1">삭제</button>
             </CardFooter>
