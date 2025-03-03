@@ -3,6 +3,7 @@ export const revalidate = 600
 import Image from 'next/image'
 import { supabase } from '@/app/lib/supabase/supabase.client'
 import BackButton from '@/components/ui/BackButton'
+import { Separator } from '@/components/ui/separator'
 
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || ''
@@ -36,6 +37,7 @@ export default async function Gallery() {
             ) : (
               <video src={item.src} controls className="w-full h-64 object-cover rounded-t-lg mb-4" />
             )}
+            <Separator className='mb-4' />
             <h3 className="text-xl font-bold mb-2">{item.description}</h3> {/* 제목 표시 */}
             <p className="text-gray-400 text-sm">{new Date(item.timestamp).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</p> {/* 날짜 표시 */}
           </div>
